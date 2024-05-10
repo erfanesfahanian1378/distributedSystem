@@ -1,5 +1,6 @@
 package resource;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +35,22 @@ public class heartRateResource {
 
         return Response.status(Response.Status.OK).entity(statistics).build();
     }
+
+
+    @Path("/average/{playerId}/{n}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAverageOfLastNHeartRates(@PathParam("playerId") String playerId, @PathParam("n") int n) {
+        List<Integer> rates = heartRates.getOrDefault(playerId, new ArrayList<>());
+        // Calculate the average of the last n rates
+        double average = rates.stream()
+                .skip(Math.max(0, rates.size() - n))
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0);
+        return Response.ok(new AbstractMap.SimpleEntry<>("average", average)).build();
+    }
+
 
 
 

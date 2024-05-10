@@ -4,10 +4,7 @@ import entities.Player;
 import entities.PlayerInfo;
 import entities.Position;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -61,4 +58,17 @@ public class PlayerResource {
         );
         return info;
     }
+
+
+    @Path("/all")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPlayers() {
+        List<PlayerInfo> allPlayersInfo = new ArrayList<>();
+        players.values().forEach(player ->
+                allPlayersInfo.add(new PlayerInfo(player.getId(), player.getPosition(), null)) // Pass null or appropriate list for 'others'
+        );
+        return Response.ok(allPlayersInfo).build();
+    }
+
 }
