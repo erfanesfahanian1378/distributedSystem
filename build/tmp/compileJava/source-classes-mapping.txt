@@ -19,3 +19,5 @@ Main.java
 resource/heartRateResource.java
  resource.heartRateResource
  resource.heartRateResource$HeartRateStatistics
+mqtt/MqttPublisher.java
+ mqtt.MqttPublisher
